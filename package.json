@@ -1,16 +1,8 @@
 {
-  "name": "dylf-store-next",
-  "version": "0.1.0",
-  "private": true,
+  "name": "dylf-store-static",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.43.0",
-    "next": "14.2.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "build": "mkdir -p .next",
+    "start": "echo 'Static HTML Mode'"
   }
 }
