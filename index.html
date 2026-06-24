@@ -52,18 +52,21 @@
         .profile-title { font-size: 26px; font-weight: 900; letter-spacing: 1.5px; text-shadow: 0 0 12px #00ffff; color: #ffffff; margin: 10px 0; }
         .bio-box { background: rgba(10, 36, 99, 0.4); border: 1px solid #bc13fe; box-shadow: 0 0 10px rgba(188, 19, 254, 0.3); border-radius: 14px; padding: 14px; font-size: 13px; line-height: 1.5; color: #e2e8f0; }
 
-        /* --- SOSMED ICON MENYALA --- */
+        /* --- SOSMED ICON MENYALA DENGAN TRANSISI EMPOK PAS DI-KLIK --- */
         .sosmed-instruction-text { text-align: center; font-size: 11px; font-weight: 700; color: #00ffff; text-transform: uppercase; letter-spacing: 2px; margin: 15px 0; text-shadow: 0 0 8px #00ffff; }
         .sosmed-row { display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; }
-        .sosmed-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; text-decoration: none; background: #050508; border: 2px solid #bc13fe; box-shadow: 0 0 15px #bc13fe; transition: all 0.3s; }
+        .sosmed-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; text-decoration: none; background: #050508; border: 2px solid #bc13fe; box-shadow: 0 0 15px #bc13fe; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .sosmed-icon:hover { transform: scale(1.15); border-color: #00ffff; box-shadow: 0 0 25px #00ffff; }
+        .sosmed-icon:active { transform: scale(0.9); box-shadow: 0 0 30px #00ffff; filter: brightness(1.2); }
 
         .wa-links-wrapper { display: flex; flex-direction: column; gap: 12px; position: relative; margin-top: 20px; }
         .mascot-absolute-container { position: absolute; left: -15px; bottom: -10px; width: 180px; height: 180px; z-index: 3; pointer-events: none; }
         .mascot-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 12px #00ffff); }
 
-        .group-card { background: rgba(10, 36, 99, 0.4); border-left: 4px solid #bc13fe; border-radius: 0 14px 14px 0; padding: 14px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; margin-left: 135px; border-top: 1px solid rgba(188,19,254,0.2); border-bottom: 1px solid rgba(188,19,254,0.2); border-right: 1px solid rgba(188,19,254,0.2); transition: all 0.2s; }
+        /* --- CARD GROUP DENGAN TRANSISI PEMBAL --- */
+        .group-card { background: rgba(10, 36, 99, 0.4); border-left: 4px solid #bc13fe; border-radius: 0 14px 14px 0; padding: 14px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; margin-left: 135px; border-top: 1px solid rgba(188,19,254,0.2); border-bottom: 1px solid rgba(188,19,254,0.2); border-right: 1px solid rgba(188,19,254,0.2); transition: all 0.2s ease; }
         .group-card:hover { background: rgba(10, 36, 99, 0.6); border-left-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.3); transform: scale(1.02); }
+        .group-card:active { transform: scale(0.97); background: rgba(188, 19, 254, 0.2); border-left-color: #bc13fe; box-shadow: 0 0 20px rgba(188,19,254,0.4); }
 
         /* --- REVIEWS & STARS GLOW --- */
         .review-stats-summary { background: rgba(0, 255, 255, 0.05); border: 1px dashed #00ffff; box-shadow: 0 0 10px rgba(0,255,255,0.1); border-radius: 16px; padding: 15px; text-align: center; margin: 20px 0; }
@@ -74,18 +77,22 @@
         .standalone-review-card { background: rgba(10, 36, 99, 0.3); border: 1px solid rgba(188, 19, 254, 0.3); border-radius: 14px; padding: 14px; box-shadow: 0 0 8px rgba(188,19,254,0.2); }
         .review-item-stars { color: #00ffff; font-size: 11px; margin-bottom: 6px; text-shadow: 0 0 6px #00ffff; }
 
+        /* --- FORM ULASAN & TOMBOL MANTUL --- */
         .form-review-box { background: rgba(13, 13, 20, 0.95); border: 2px solid #bc13fe; box-shadow: 0 0 20px rgba(188, 19, 254, 0.4); border-radius: 18px; padding: 18px; }
         .form-box-title { font-size: 14px; font-weight: 800; color: #00ffff; text-transform: uppercase; margin-bottom: 12px; text-shadow: 0 0 5px #00ffff; }
         .input-field { width: 100%; background: #080b16; border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 8px; padding: 10px; color: #ffffff; font-size: 12px; outline: none; margin-top: 4px; }
         .input-field:focus { border-color: #bc13fe; box-shadow: 0 0 10px #bc13fe; }
-        .submit-review-btn { width: 100%; background: linear-gradient(90deg, #bc13fe, #0a2463); color: #ffffff; border: 1px solid #bc13fe; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; text-shadow: 0 0 5px #ffffff; box-shadow: 0 0 15px rgba(188,19,254,0.4); width: 100%; margin-top: 10px; }
+        
+        .submit-review-btn { width: 100%; background: linear-gradient(90deg, #bc13fe, #0a2463); color: #ffffff; border: 1px solid #bc13fe; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; text-shadow: 0 0 5px #ffffff; box-shadow: 0 0 15px rgba(188,19,254,0.4); margin-top: 10px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .submit-review-btn:hover { background: linear-gradient(90deg, #00ffff, #bc13fe); color: #000; box-shadow: 0 0 20px #00ffff; border-color: #00ffff; text-shadow: none; }
+        .submit-review-btn:active { transform: scale(0.95); box-shadow: 0 0 30px #bc13fe; filter: brightness(1.2); }
 
-        /* --- NAV BAR --- */
+        /* --- NAV BAR BAWAH RESPONSIF & GLOWING --- */
         .bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 70px; background: #0d0d13; border-top: 2px solid #bc13fe; box-shadow: 0 -5px 15px rgba(188,19,254,0.3); display: flex; justify-content: space-evenly; align-items: center; border-radius: 0 0 22px 22px; z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #718096; font-size: 10px; font-weight: 700; cursor: pointer; flex: 1; text-align: center; }
-        .nav-item.active { color: #00ffff; text-shadow: 0 0 8px #00ffff; }
-        .nav-dot { width: 5px; height: 5px; background-color: transparent; border-radius: 50%; margin-top: 4px; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #718096; font-size: 10px; font-weight: 700; cursor: pointer; flex: 1; text-align: center; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-item.active { color: #00ffff; text-shadow: 0 0 12px #00ffff, 0 0 25px rgba(0, 255, 255, 0.5); transform: scale(1.08); }
+        .nav-item:active { transform: scale(0.9); opacity: 0.8; }
+        .nav-dot { width: 5px; height: 5px; background-color: transparent; border-radius: 50%; margin-top: 4px; transition: all 0.25s ease; }
         .nav-item.active .nav-dot { background-color: #00ffff; box-shadow: 0 0 8px #00ffff; }
     </style>
 </head>
@@ -148,7 +155,7 @@
                     <div class="review-stats-summary">
                         <div class="big-rating-number">5.0 / 5.0</div>
                         <div class="big-rating-stars">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         </div>
                         <div style="font-size:11px; color:#a0aec0; font-weight:bold;">KEPUASAN PELANGGAN DYLF STOREacc</div>
                     </div>
@@ -197,6 +204,7 @@
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // Menghilangkan splash screen setelah 2.2 detik
         setTimeout(() => { document.getElementById('loading-screen').classList.add('hide'); }, 2200);
 
         function switchPage(page) {
@@ -217,7 +225,7 @@
                 .eq('status', 'approved')
                 .order('id', { ascending: false });
 
-            if (error || !data) {
+            if (error || !data || data.length === 0) {
                 container.innerHTML = '<p style="text-align:center; font-size:12px; color:#718096;">Belum ada ulasan terverifikasi.</p>';
                 return;
             }
@@ -231,7 +239,7 @@
                     <div class="standalone-review-card">
                         <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; margin-bottom:4px;">
                             <div>👤 ${item.nama}</div>
-                            <div style="font-size:10px; color:#718096;">${item.tanggal}</div>
+                            <div style="font-size:10px; color:#718096;">${item.tanggal || ''}</div>
                         </div>
                         <div class="review-item-stars">${stars}</div>
                         <p style="font-size:12px; color:#e2e8f0; line-height:1.4;">${item.text}</p>
