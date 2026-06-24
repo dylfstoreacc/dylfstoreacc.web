@@ -285,7 +285,7 @@ const styles = {
   bioBox: { background: 'rgba(10, 36, 99, 0.5)', border: '2px solid #bc13fe', borderRadius: '14px', padding: '14px', fontSize: '13px', lineHeight: '1.5', color: '#e2e8f0', marginBottom: '15px' },
   sosmedInstructionText: { textAlign: 'center', fontSize: '10px', fontWeight: '700', color: '#00ffff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px' },
   sosmedRow: { display: 'flex', justifyContent: 'center', gap: '25px', marginBottom: '25px' },
-  sosmedIcon: { width: '46px', height: '46px', borderRadius: '50px', display: 'flex', justifyContent: 'center', align-items: 'center', fontSize: '22px', backgroundColor: '#050508', border: '2px solid #bc13fe', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)', textDecoration: 'none' },
+  sosmedIcon: { width: '46px', height: '46px', borderRadius: '50px', display: 'flex', justifyContent: 'center', alignitems: 'center', fontSize: '22px', backgroundColor: '#050508', border: '2px solid #bc13fe', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)', textDecoration: 'none' },
   waLinksWrapper: { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '12px', position: 'relative', marginTop: '10px' },
   mascotAbsoluteContainer: { position: 'absolute', left: '-18px', bottom: '-12px', width: '195px', height: '195px', zIndex: 3, pointerEvents: 'none' },
   mascotImg: { width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.5))' },
