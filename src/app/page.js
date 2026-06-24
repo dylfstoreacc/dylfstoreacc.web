@@ -267,56 +267,147 @@ export default function Home() {
   )
 }
 
-// STYLING SIBER MURNI DI NEXT.JS (MENGHINDARI TABRAKAN BORDER ERROR CSS)
+// GANTI SELURUH OBJEK STYLES LAMA DENGAN INI (JANGAN ADA YANG TERPOTONG!)
 const styles = {
+  // GLOBAL BACKGROUND DENGAN GRID NEON SAMAR
+  '@global': {
+    body: {
+      margin: 0,
+      padding: 0,
+      backgroundColor: '#030306',
+      // MENAMBAHKAN EFEK RADIAL GLOW LATAR BELAKANG
+      backgroundImage: `
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.1) 0%, transparent 45%),
+        linear-gradient(rgba(5, 5, 8, 0.92), rgba(8, 12, 24, 0.95)),
+        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px)
+      `,
+      backgroundSize: '100% 100%, 100% 100%, 100% 100%, 30px 30px, 30px 30px',
+      color: '#ffffff',
+      fontFamily: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+      overflow: 'hidden' // Menghindari scroll body utama
+    }
+  },
+  
+  // 1. SPLASH SCREEN DENGAN RING NEON BERPUTAR
   splashScreen: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: '#040407', zIndex: 999, display: 'flex', justifyContent: 'center', alignItems: 'center' },
   loaderWrapper: { position: 'relative', width: '200px', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center' },
-  loadLogo: { width: '115px', height: '115px', objectFit: 'contain', filter: 'drop-shadow(0 0 12px rgba(188, 19, 254, 0.6))' },
-  glowRing: { position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', border: '2px solid transparent', borderTopColor: '#00ffff', borderBottomColor: '#bc13fe', filter: 'drop-shadow(0 0 8px #00ffff)' },
-  phoneContainer: { width: '100%', maxWidth: '450px', height: '100vh', maxHeight: '850px', backgroundColor: '#05050a', border: '2px solid #bc13fe', boxShadow: '0 0 30px rgba(188, 19, 254, 0.3)', borderRadius: '24px', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' },
+  loadLogo: { width: '115px', height: '115px', objectFit: 'contain', 
+    // EFEK GLOW LOGO UNGU MELEDAK
+    filter: 'drop-shadow(0 0 12px rgba(188, 19, 254, 0.6))',
+    animation: 'cosmicPulse 2s infinite ease-in-out' // Animasi detak (tambahan CSS di layout)
+  },
+  glowRing: { position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', border: '2px solid transparent', borderTopColor: '#00ffff', borderBottomColor: '#bc13fe', 
+    // EFEK GLOW RING CYAN NEON
+    filter: 'drop-shadow(0 0 8px #00ffff)',
+    animation: 'ringRotate 2.5s infinite linear' // Animasi putar
+  },
+
+  // 2. CORE FRAME BINGKAI HP DENGAN GLOW UNGU
+  phoneContainer: { width: '100%', maxWidth: '450px', height: '100vh', maxHeight: '850px', backgroundColor: '#05050a', 
+    // NEON UNGU BORDER & SHADOW
+    border: '2px solid #bc13fe', 
+    boxShadow: '0 0 30px rgba(188, 19, 254, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.1)', 
+    borderRadius: '24px', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' },
   scrollContent: { flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' },
+  
+  // 3. BANNER TOP DENGAN GRID CYAN
   storeBanner: { width: '100%', height: '130px', background: 'linear-gradient(45deg, #0a2463 0%, #050508 100%)', borderBottom: '1px solid rgba(0, 255, 255, 0.3)', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' },
   bannerImg: { width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 },
-  bannerPlaceholderText: { fontSize: '13px', fontWeight: 'bold', color: '#00ffff', letterSpacing: '2px', textShadow: '0 0 8px #00ffff', zIndex: 1 },
+  bannerPlaceholderText: { fontSize: '13px', fontWeight: 'bold', color: '#00ffff', letterSpacing: '2px', 
+    // GLOW TEXT BANNER
+    textShadow: '0 0 8px #00ffff', zIndex: 1, textTransform: 'uppercase' },
   mainContentWrapper: { padding: '0 20px 100px 20px', position: 'relative' },
+  
+  // 4. PROFILE LOGO DENGAN GLOW CYAN
   profileContainer: { textAlign: 'center', marginBottom: '15px', marginTop: '20px' },
-  profileLogo: { width: '170px', height: '170px', objectFit: 'contain', marginBottom: '2px', filter: 'drop-shadow(0 0 12px rgba(0, 255, 255, 0.5))' },
-  profileTitle: { fontSize: '26px', fontWeight: '900', color: '#ffffff', letterSpacing: '1.5px', textShadow: '0 0 10px rgba(0, 255, 255, 0.6)', marginBottom: '10px' },
-  bioBox: { background: 'rgba(10, 36, 99, 0.5)', border: '2px solid #bc13fe', borderRadius: '14px', padding: '14px', fontSize: '13px', lineHeight: '1.5', color: '#e2e8f0', marginBottom: '15px' },
-  sosmedInstructionText: { textAlign: 'center', fontSize: '10px', fontWeight: '700', color: '#00ffff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px' },
-  sosmedRow: { display: 'flex', justifyContent: 'center', gap: '25px', marginBottom: '25px' },
-  sosmedIcon: { width: '46px', height: '46px', borderRadius: '50px', display: 'flex', justifyContent: 'center', alignitems: 'center', fontSize: '22px', backgroundColor: '#050508', border: '2px solid #bc13fe', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)', textDecoration: 'none' },
-  waLinksWrapper: { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '12px', position: 'relative', marginTop: '10px' },
+  profileLogo: { width: '170px', height: '170px', objectFit: 'contain', marginBottom: '2px', 
+    // GLOW LOGO BESAR
+    filter: 'drop-shadow(0 0 12px rgba(0, 255, 255, 0.5))' },
+  profileTitle: { fontSize: '26px', fontWeight: '900', color: '#ffffff', letterSpacing: '1.5px', 
+    // GLOW TITLE PROFIL
+    textShadow: '0 0 10px rgba(0, 255, 255, 0.6)', marginBottom: '10px' },
+  
+  // BIO BOX DENGAN BORDER NEON UNGU
+  bioBox: { background: 'rgba(10, 36, 99, 0.5)', border: '1px solid #bc13fe', borderRadius: '14px', padding: '14px', fontSize: '13px', lineHeight: '1.5', color: '#e2e8f0', marginBottom: '15px' },
+  
+  // SOSMED INSTRUKSI DENGAN ANIMASI DETAK
+  sosmedInstructionText: { textAlign: 'center', fontSize: '10px', fontWeight: '700', color: '#00ffff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px', 
+    // ANIMASI & GLOW
+    animation: 'textPulse 2s infinite ease-in-out', textShadow: '0 0 8px rgba(0, 255, 255, 0.4)' },
+  
+  // SOSMED ROW (SUDAH DIPERBAIKI LETAKNYA)
+  sosmedRow: { display: 'flex', justifyContent: 'center', gap: '25px', marginBottom: '25px', position: 'relative', zIndex: 10 },
+  sosmedIcon: { width: '46px', height: '46px', borderRadius: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '22px', backgroundColor: '#050508', 
+    // NEON BORDER DENGAN EFEK SHADOW
+    border: '2px solid transparent', // Awal transparan
+    animation: 'fluidNeonShift 4s linear infinite', // Animasi pergeseran neon ungu-cyan
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)', textDecoration: 'none', transition: 'all 0.3s ease' },
+  waLinksWrapper: { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '12px', position: 'relative', zIndex: 2, marginTop: '10px' },
+  
+  // 5. MASKOT DIFIBOT V2 DENGAN GLOW CYAN (SUDAH DIPERBAIKI POSISI)
   mascotAbsoluteContainer: { position: 'absolute', left: '-18px', bottom: '-12px', width: '195px', height: '195px', zIndex: 3, pointerEvents: 'none' },
-  mascotImg: { width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.5))' },
-  groupCard: { background: 'rgba(10, 36, 99, 0.4)', borderLeft: '4px solid #bc13fe', borderTop: '1px solid rgba(188, 19, 254, 0.3)', borderBottom: '1px solid rgba(188, 19, 254, 0.3)', borderRight: '1px solid rgba(188, 19, 254, 0.3)', borderRadius: '0 14px 14px 0', padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textDecoration: 'none', marginLeft: '140px' },
-  testiSectionWrapper: { padding: '20px', position: 'relative', marginTop: '15px', backgroundColor: 'rgba(13, 13, 20, 0.85)', border: '2px solid rgba(0, 255, 255, 0.2)', borderRadius: '20px' },
-  testiTabs: { display: 'flex', backgroundColor: 'rgba(10, 36, 99, 0.4)', padding: '4px', borderRadius: '10px', marginBottom: '15px', gap: '4px' },
-  tabBtn: { flex: 1, backgroundColor: 'transparent', border: 'none', color: '#718096', padding: '10px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', borderRadius: '8px' },
+  mascotImg: { width: '100%', height: '100%', objectFit: 'contain', 
+    // GLOW MASKOT
+    filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.5))' },
+  
+  // GROUP CARD DENGAN BORDER KIRI UNGU
+  groupCard: { background: 'rgba(10, 36, 99, 0.4)', borderLeft: '4px solid #bc13fe', borderTop: '1px solid rgba(188, 19, 254, 0.3)', borderBottom: '1px solid rgba(188, 19, 254, 0.3)', borderRight: '1px solid rgba(188, 19, 254, 0.3)', borderRadius: '0 14px 14px 0', padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textDecoration: 'none', marginLeft: '140px', transition: 'all 0.2s ease' },
+  
+  // TESTIMONI SECTION DENGAN GEOMETRI NEON
+  testiSectionWrapper: { padding: '20px', position: 'relative', marginTop: '15px', backgroundColor: 'rgba(13, 13, 20, 0.85)', backdropFilter: 'blur(5px)',
+    // NEON GRID CYAN
+    border: '2px solid rgba(0, 255, 255, 0.2)', borderRadius: '20px', overflow: 'hidden' },
+  testiTabs: { display: 'flex', backgroundColor: 'rgba(10, 36, 99, 0.4)', padding: '4px', borderRadius: '10px', marginBottom: '15px', border: '1px solid rgba(188, 19, 254, 0.2)', gap: '4px' },
+  tabBtn: { flex: 1, backgroundColor: 'transparent', border: 'none', color: '#718096', padding: '10px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', borderRadius: '8px', transition: 'all 0.3s ease' },
   tabBtnActive: { backgroundColor: '#bc13fe', color: '#ffffff', boxShadow: '0 0 10px rgba(188, 19, 254, 0.5)' },
   testiGrid: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' },
   noTestiText: { textAlign: 'center', color: '#718096', fontSize: '12px', padding: '20px 0', lineHeight: '1.5' },
+  
+  // ULASAN SECTION
   reviewStatsSummary: { backgroundColor: 'rgba(0, 255, 255, 0.05)', border: '1px dashed rgba(0, 255, 255, 0.3)', borderRadius: '16px', padding: '15px', textAlign: 'center', marginTop: '15px', marginBottom: '20px' },
   bigRatingNumber: { fontSize: '32px', fontWeight: '900', color: '#00ffff', textShadow: '0 0 10px rgba(0, 255, 255, 0.4)' },
-  bigRatingStars: { color: '#00ffff', fontSize: '14px', margin: '4px 0', letterSpacing: '2px' },
+  
+  // FIX BINTANG ULASAN (CIRI KHAS FONTAWESOME CYAN)
+  bigRatingStars: { color: '#00ffff', fontSize: '14px', margin: '4px 0', letterSpacing: '2px', textShadow: '0 0 5px #00ffff' },
   reviewScrollContainer: { display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '25px', maxHeight: '340px', overflowY: 'auto' },
-  standaloneReviewCard: { backgroundColor: 'rgba(10, 36, 99, 0.3)', border: '2px solid rgba(188, 19, 254, 0.15)', borderRadius: '14px', padding: '14px' },
+  standaloneReviewCard: { backgroundColor: 'rgba(10, 36, 99, 0.3)', 
+    // NEON UNGU TIPIS
+    border: '1px solid rgba(188, 19, 254, 0.15)', borderRadius: '14px', padding: '14px' },
+  
+  // FIX TOTAL BINTANG ULASAN (CYAN NEON)
   reviewItemStars: { color: '#00ffff', fontSize: '11px', marginBottom: '6px', textShadow: '0 0 5px #00ffff', display: 'flex', gap: '3px' },
-  formReviewBox: { backgroundColor: 'rgba(13, 13, 20, 0.9)', border: '2px solid #bc13fe', borderRadius: '18px', padding: '18px' },
-  formBoxTitle: { fontSize: '14px', fontWeight: '800', color: '#00ffff', textTransform: 'uppercase', marginBottom: '14px' },
+  
+  // FORM ULASAN DENGAN GLOW NEON
+  formReviewBox: { backgroundColor: 'rgba(13, 13, 20, 0.9)', 
+    // BORDER NEON UNGU
+    border: '1px solid #bc13fe', borderRadius: '18px', padding: '18px', 
+    boxShadow: '0 0 15px rgba(188,19,254,0.15)' },
+  formBoxTitle: { fontSize: '14px', fontWeight: '800', color: '#00ffff', textTransform: 'uppercase', marginBottom: '14px', textShadow: '0 0 6px #00ffff', letterSpacing: '0.5px' },
   fieldLabel: { display: 'block', fontSize: '10px', color: '#a0aec0', textTransform: 'uppercase', fontWeight: 'bold', marginBottom: '5px' },
-  inputField: { width: '100%', backgroundColor: '#080b16', border: '1px solid rgba(0, 255, 255, 0.2)', borderRadius: '8px', padding: '10px 12px', color: '#ffffff', fontSize: '12px', outline: 'none' },
-  submitReviewBtn: { width: '100%', background: 'linear-gradient(90deg, #bc13fe, #0a2463)', color: '#ffffff', border: 'none', borderRadius: '10px', padding: '12px', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', cursor: 'pointer', textTransform: 'uppercase' },
-  footerPrivacy: { textAlign: 'center', marginTop: '40px', paddingTop: '15px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px' },
+  inputField: { width: '100%', backgroundColor: '#080b16', 
+    // NEON CYAN BORDER FOCUS
+    border: '1px solid rgba(0, 255, 255, 0.2)', borderRadius: '8px', padding: '10px 12px', color: '#ffffff', fontSize: '12px', outline: 'none' },
+  
+  // BUTTON SUBMIT NEON UNGU-CYAN
+  submitReviewBtn: { width: '100%', background: 'linear-gradient(90deg, #bc13fe, #0a2463)', color: '#ffffff', border: '1px solid #bc13fe', borderRadius: '10px', padding: '12px', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', cursor: 'pointer', textTransform: 'uppercase', transition: 'all 0.3s ease' },
+  
+  // FOOTER DENGAN GLOW SAMAR
+  footerPrivacy: { textAlign: 'center', marginTop: '40px', paddingTop: '15px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', position: 'relative', zIndex: 10 },
   privacyLink: { color: '#718096', fontSize: '12px', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer' },
+  
+  // BOTTOM NAV DENGAN BORDER NEON UNGU
   bottomNav: { position: 'absolute', bottom: 0, left: 0, width: '100%', height: '70px', backgroundColor: '#0d0d13', borderTop: '1px solid rgba(188, 19, 254, 0.3)', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', borderRadius: '0 0 22px 22px', zIndex: 100 },
-  navItem: { display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#718096', fontSize: '10px', fontWeight: '700', cursor: 'pointer', flex: 1, textAlign: 'center' },
+  navItem: { display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#718096', fontSize: '10px', fontWeight: '700', cursor: 'pointer', flex: 1, textAlign: 'center', transition: 'color 0.2s', padding: '10px 10px' },
   navItemActive: { color: '#00ffff', textShadow: '0 0 8px rgba(0, 255, 255, 0.5)' },
   navDot: { width: '5px', height: '5px', backgroundColor: 'transparent', borderRadius: '50px', marginTop: '4px' },
   navDotActive: { backgroundColor: '#00ffff', boxShadow: '0 0 8px #00ffff' },
+  
+  // POP-UP MODAL DENGAN GLOW NEON UNGU
   modalOverlay: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(5, 5, 8, 0.95)', zIndex: 100, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '25px' },
   modalCard: { width: '100%', backgroundColor: '#080b16', border: '1px solid #bc13fe', boxShadow: '0 0 20px rgba(188, 19, 254, 0.3)', borderRadius: '20px', padding: '22px' },
-  modalHeader: { color: '#00ffff', fontSize: '20px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '15px' },
+  modalHeader: { color: '#00ffff', fontSize: '20px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '15px', textShadow: '0 0 8px rgba(0, 255, 255, 0.4)' },
   modalBodyText: { color: '#e2e8f0', fontSize: '13px', lineHeight: '1.6', marginBottom: '18px' },
   modalCloseBtn: { background: '#bc13fe', color: '#ffffff', border: 'none', padding: '10px 20px', fontSize: '12px', fontWeight: '700', borderRadius: '12px', cursor: 'pointer', width: '100%' }
 }
