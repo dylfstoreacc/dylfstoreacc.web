@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DYLF STORE OFFICIAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* --- RESET & GLOWING SIBER LAYOUT --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background-color: #030306; 
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.15) 0%, transparent 45%),
+                linear-gradient(rgba(5, 5, 8, 0.95), rgba(8, 12, 24, 0.97));
+            color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; 
+        }
+        
+        .phone-container { 
+            width: 100%; max-width: 450px; height: 100vh; max-height: 850px; background-color: #05050a;
+            border: 2px solid #bc13fe; box-shadow: 0 0 35px rgba(188, 19, 254, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.15); 
+            border-radius: 24px; display: flex; flex-direction: column; position: relative; overflow: hidden; 
+        }
+
+        /* --- LOADING SCREEN ANIMASI --- */
+        .cyber-loader-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #040407; z-index: 999; display: flex; justify-content: center; align-items: center; transition: all 0.6s ease; }
+        .cyber-loader-screen.hide { opacity: 0; pointer-events: none; }
+        .cosmic-loader-wrapper { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; }
+        .load-logo { width: 115px; height: 115px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(188, 19, 254, 0.8)); animation: cosmicPulse 2s infinite ease-in-out; z-index: 10; }
+        .cosmic-glow-ring { position: absolute; width: 160px; height: 160px; border-radius: 50%; border: 2px solid transparent; border-top-color: #00ffff; border-bottom-color: #bc13fe; filter: drop-shadow(0 0 10px #00ffff); animation: ringRotate 2s infinite linear; }
+        
+        @keyframes cosmicPulse { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 25px #00ffff); } }
+        @keyframes ringRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .scroll-content { flex: 1; overflow-y: auto; scroll-behavior: smooth; padding-bottom: 90px; }
+        .scroll-content::-webkit-scrollbar { width: 0px; }
+
+        .store-banner { width: 100%; height: 130px; border-bottom: 2px solid #00ffff; box-shadow: 0 0 15px #00ffff; overflow: hidden; position: relative; background: #0a2463; }
+        .banner-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .main-content-wrapper { padding: 0 20px; position: relative; }
+
+        .page-section { display: none; }
+        .page-section.active { display: block; animation: pageFade 0.4s ease-in-out; }
+        @keyframes pageFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .profile-container { text-align: center; margin-top: 20px; margin-bottom: 15px; }
+        .profile-logo { width: 160px; height: 160px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6)); }
+        .profile-title { font-size: 26px; font-weight: 900; letter-spacing: 1.5px; text-shadow: 0 0 12px #00ffff; color: #ffffff; margin: 10px 0; }
+        .bio-box { background: rgba(10, 36, 99, 0.4); border: 1px solid #bc13fe; box-shadow: 0 0 10px rgba(188, 19, 254, 0.3); border-radius: 14px; padding: 14px; font-size: 13px; line-height: 1.5; color: #e2e8f0; }
+
+        /* --- SOSMED ICON MENYALA --- */
+        .sosmed-instruction-text { text-align: center; font-size: 11px; font-weight: 700; color: #00ffff; text-transform: uppercase; letter-spacing: 2px; margin: 15px 0; text-shadow: 0 0 8px #00ffff; }
+        .sosmed-row { display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; }
+        .sosmed-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; text-decoration: none; background: #050508; border: 2px solid #bc13fe; box-shadow: 0 0 15px #bc13fe; transition: all 0.3s; }
+        .sosmed-icon:hover { transform: scale(1.15); border-color: #00ffff; box-shadow: 0 0 25px #00ffff; }
+
+        .wa-links-wrapper { display: flex; flex-direction: column; gap: 12px; position: relative; margin-top: 20px; }
+        .mascot-absolute-container { position: absolute; left: -15px; bottom: -10px; width: 180px; height: 180px; z-index: 3; pointer-events: none; }
+        .mascot-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 12px #00ffff); }
+
+        .group-card { background: rgba(10, 36, 99, 0.4); border-left: 4px solid #bc13fe; border-radius: 0 14px 14px 0; padding: 14px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; margin-left: 135px; border-top: 1px solid rgba(188,19,254,0.2); border-bottom: 1px solid rgba(188,19,254,0.2); border-right: 1px solid rgba(188,19,254,0.2); transition: all 0.2s; }
+        .group-card:hover { background: rgba(10, 36, 99, 0.6); border-left-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.3); transform: scale(1.02); }
+
+        /* --- REVIEWS & STARS GLOW --- */
+        .review-stats-summary { background: rgba(0, 255, 255, 0.05); border: 1px dashed #00ffff; box-shadow: 0 0 10px rgba(0,255,255,0.1); border-radius: 16px; padding: 15px; text-align: center; margin: 20px 0; }
+        .big-rating-number { font-size: 32px; font-weight: 900; color: #00ffff; text-shadow: 0 0 10px #00ffff; }
+        .big-rating-stars { color: #00ffff; font-size: 15px; margin: 5px 0; text-shadow: 0 0 8px #00ffff; }
+        
+        .review-scroll-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-height: 320px; overflow-y: auto; }
+        .standalone-review-card { background: rgba(10, 36, 99, 0.3); border: 1px solid rgba(188, 19, 254, 0.3); border-radius: 14px; padding: 14px; box-shadow: 0 0 8px rgba(188,19,254,0.2); }
+        .review-item-stars { color: #00ffff; font-size: 11px; margin-bottom: 6px; text-shadow: 0 0 6px #00ffff; }
+
+        .form-review-box { background: rgba(13, 13, 20, 0.95); border: 2px solid #bc13fe; box-shadow: 0 0 20px rgba(188, 19, 254, 0.4); border-radius: 18px; padding: 18px; }
+        .form-box-title { font-size: 14px; font-weight: 800; color: #00ffff; text-transform: uppercase; margin-bottom: 12px; text-shadow: 0 0 5px #00ffff; }
+        .input-field { width: 100%; background: #080b16; border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 8px; padding: 10px; color: #ffffff; font-size: 12px; outline: none; margin-top: 4px; }
+        .input-field:focus { border-color: #bc13fe; box-shadow: 0 0 10px #bc13fe; }
+        .submit-review-btn { width: 100%; background: linear-gradient(90deg, #bc13fe, #0a2463); color: #ffffff; border: 1px solid #bc13fe; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; text-shadow: 0 0 5px #ffffff; box-shadow: 0 0 15px rgba(188,19,254,0.4); width: 100%; margin-top: 10px; }
+        .submit-review-btn:hover { background: linear-gradient(90deg, #00ffff, #bc13fe); color: #000; box-shadow: 0 0 20px #00ffff; border-color: #00ffff; text-shadow: none; }
+
+        /* --- NAV BAR --- */
+        .bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 70px; background: #0d0d13; border-top: 2px solid #bc13fe; box-shadow: 0 -5px 15px rgba(188,19,254,0.3); display: flex; justify-content: space-evenly; align-items: center; border-radius: 0 0 22px 22px; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #718096; font-size: 10px; font-weight: 700; cursor: pointer; flex: 1; text-align: center; }
+        .nav-item.active { color: #00ffff; text-shadow: 0 0 8px #00ffff; }
+        .nav-dot { width: 5px; height: 5px; background-color: transparent; border-radius: 50%; margin-top: 4px; }
+        .nav-item.active .nav-dot { background-color: #00ffff; box-shadow: 0 0 8px #00ffff; }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container">
+        
+        <div id="loading-screen" class="cyber-loader-screen">
+            <div class="cosmic-loader-wrapper">
+                <div class="cosmic-glow-ring"></div>
+                <img src="/dfstoreacc.png" class="load-logo" alt="Logo">
+            </div>
+        </div>
+
+        <div class="scroll-content" id="main-scroll">
+            <div class="store-banner">
+                <img src="/banner.png" class="banner-img" alt="">
+            </div>
+            
+            <div class="main-content-wrapper">
+
+                <div id="page-home" class="page-section active">
+                    <div class="profile-container">
+                        <img src="/dfstoreacc.png" class="profile-logo" alt="Logo">
+                        <div class="profile-title">DYLF STOREacc</div>
+                        <div class="bio-box">
+                            Welcome to web DYLF STOREacc Pusat Layanan Jual & Beli Akun Digital Terpercaya khususnya akun game yg sedang kamu cari. Silahkan Join Komunitas dibawah ini untuk mendapatkan informasi lengkapnya.🌱
+                        </div>
+                    </div>
+
+                    <div class="sosmed-instruction-text">🎯 Click Icon to Contact Us 🎯</div>
+                    <div class="sosmed-row">
+                        <a href="https://wa.me/6285266953530" target="_blank" class="sosmed-icon"><i class="fa-brands fa-whatsapp" style="color: #25D366;"></i></a>
+                        <a href="https://www.tiktok.com/@dylfrvr" target="_blank" class="sosmed-icon"><i class="fa-brands fa-tiktok" style="color: #fff;"></i></a>
+                        <a href="https://instagram.com/dylfrvr" target="_blank" class="sosmed-icon"><i class="fa-brands fa-instagram" style="color: #f9376c;"></i></a>
+                    </div>
+
+                    <div class="wa-links-wrapper">
+                        <div class="mascot-absolute-container">
+                            <img src="/images/difibot_v2.png" class="mascot-img" alt="Mascot">
+                        </div>
+                        <a href="https://chat.whatsapp.com/IyHj3XJikuX90k6HSiMpDP" target="_blank" class="group-card">
+                            <div>
+                                <h3 style="color:#fff; font-size:13px; margin-bottom:2px;">GB 1: DYLF STOREacc</h3>
+                                <p style="color:#a0aec0; font-size:10px;">Grup komunitas utama pusat jual & beli akun aman</p>
+                            </div>
+                            <div style="color:#bc13fe; font-weight:bold;">&gt;</div>
+                        </a>
+                        <a href="https://whatsapp.com/channel/0029VbCmpXQ8vd1RqxIn6h0z" target="_blank" class="group-card">
+                            <div>
+                                <h3 style="color:#fff; font-size:13px; margin-bottom:2px;">CH: DYLF STOREacc</h3>
+                                <p style="color:#a0aec0; font-size:10px;">Channel update info stok akun & track history testi</p>
+                            </div>
+                            <div style="color:#bc13fe; font-weight:bold;">&gt;</div>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="page-ulasan" class="page-section">
+                    <div class="review-stats-summary">
+                        <div class="big-rating-number">5.0 / 5.0</div>
+                        <div class="big-rating-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <div style="font-size:11px; color:#a0aec0; font-weight:bold;">KEPUASAN PELANGGAN DYLF STOREacc</div>
+                    </div>
+
+                    <div class="review-scroll-container" id="review-list">
+                        </div>
+
+                    <div class="form-review-box">
+                        <div class="form-box-title">✍️ Bagikan Pengalaman Transaksi</div>
+                        <form id="review-form">
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size:10px; color:#a0aec0; font-weight:bold; text-transform:uppercase;">Nama Nickname Kamu</label>
+                                <input type="text" id="form-nama" class="input-field" placeholder="Masukan nama..." required>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size:10px; color:#a0aec0; font-weight:bold; text-transform:uppercase;">Rating</label>
+                                <select id="form-rating" class="input-field" style="color:#00ffff; font-weight:bold;">
+                                    <option value="5">⭐⭐⭐⭐⭐ 5 - Sangat Puas</option>
+                                    <option value="4">⭐⭐⭐⭐ 4 - Puas</option>
+                                </select>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label style="font-size:10px; color:#a0aec0; font-weight:bold; text-transform:uppercase;">Isi Ulasan Testimoni</label>
+                                <textarea id="form-text" class="input-field" rows="3" placeholder="Tulis testimoni kejujuran..." required></textarea>
+                            </div>
+                            <button type="submit" class="submit-review-btn">KIRIM TESTIMONI KONSUMEN</button>
+                        </form>
+                        <p id="status-msg" style="font-size:11px; color:#00ffff; text-align:center; margin-top:10px; display:none;"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchPage('home')"><span>HOME</span><div class="nav-dot"></div></div>
+            <div class="nav-item" onclick="switchPage('ulasan')"><span>ULASAN</span><div class="nav-dot"></div></div>
+        </div>
+
+    </div>
+
+    <script>
+        // MASUKKAN KREDENSIAL DATABASE CLOUD SUPABASE KAMU SECARA AKURAT
+        const SUPABASE_URL = "https://pydgbguisbkjzgoixrir.supabase.co"; 
+        const SUPABASE_KEY = "eyJhY2ciOiI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInN1YiI6Im1vYjE1NzY5ImV4cCI6MTFubFub24lc2lyb252b4cmlyIiwiY210IiwicXQiOjE3MDg2YmJN5ZGdiZ3Vpc2Jranpnb2l4cmlyR2F2Fl2Kliejo";
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        setTimeout(() => { document.getElementById('loading-screen').classList.add('hide'); }, 2200);
+
+        function switchPage(page) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            event.currentTarget.classList.add('active');
+            if(page === 'ulasan') { fetchReviews(); }
+        }
+
+        async function fetchReviews() {
+            const container = document.getElementById('review-list');
+            container.innerHTML = '<p style="text-align:center; font-size:12px; color:#718096;">Memuat ulasan cloud...</p>';
+            
+            const { data, error } = await supabaseClient
+                .from('ulasan')
+                .select('*')
+                .eq('status', 'approved')
+                .order('id', { ascending: false });
+
+            if (error || !data) {
+                container.innerHTML = '<p style="text-align:center; font-size:12px; color:#718096;">Belum ada ulasan terverifikasi.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            data.forEach(item => {
+                let stars = '';
+                for(let i=0; i<item.rating; i++) { stars += '<i class="fa-solid fa-star"></i> '; }
+                
+                container.innerHTML += `
+                    <div class="standalone-review-card">
+                        <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; margin-bottom:4px;">
+                            <div>👤 ${item.nama}</div>
+                            <div style="font-size:10px; color:#718096;">${item.tanggal}</div>
+                        </div>
+                        <div class="review-item-stars">${stars}</div>
+                        <p style="font-size:12px; color:#e2e8f0; line-height:1.4;">${item.text}</p>
+                    </div>
+                `;
+            });
+        }
+
+        document.getElementById('review-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('status-msg');
+            msg.style.display = 'block';
+            msg.innerText = 'Sedang mengirim...';
+
+            const nama = document.getElementById('form-nama').value;
+            const rating = document.getElementById('form-rating').value;
+            const text = document.getElementById('form-text').value;
+
+            const { error } = await supabaseClient
+                .from('ulasan')
+                .insert([{ nama, rating: parseInt(rating), text, status: 'pending' }]);
+
+            if(error) {
+                msg.innerText = 'Gagal mengirim ulasan.';
+            } else {
+                msg.innerText = 'Ulasan sukses terkirim ke Antrean Admin Dileppp! 🌱';
+                document.getElementById('review-form').reset();
+            }
+        });
+    </script>
+</body>
+</html>
