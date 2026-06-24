@@ -115,7 +115,7 @@ export default function Home() {
               alt="Banner Toko" 
               onError={(e) => { e.target.style.display = 'none' }}
             />
-            <div style={styles.bannerPlaceholderText}>DYLF STORE OFFICIAL BANNER</div>
+            <div style={styles.bannerPlaceholderText}></div>
           </div>
           
           <div style={styles.mainContentWrapper}>
@@ -187,8 +187,9 @@ export default function Home() {
                 <div style={styles.reviewStatsSummary}>
                   <div style={styles.bigRatingNumber}>5.0 / 5.0</div>
                   <div style={styles.bigRatingStars}>
-                    <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
-                  </div>
+                    <div style={styles.bigRatingStars}>
+  <i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i><i className="fa-solid fa-star"></i>
+</div>
                   <div style={{fontSize:'11px', color:'#a0aec0', fontWeight:'bold'}}>KEPUASAN PELANGGAN DYLF STOREacc</div>
                 </div>
 
