@@ -1,8 +1,0 @@
-{
-  "name": "dylf-store-static",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "mkdir -p .next",
-    "start": "echo 'Static HTML Mode'"
-  }
-}
