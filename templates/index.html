@@ -1,1 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DYLF STORE OFFICIAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- RESET & ROOT STYLE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { 
+            background-color: #030306; 
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.1) 0%, transparent 45%),
+                linear-gradient(rgba(5, 5, 8, 0.92), rgba(8, 12, 24, 0.95)),
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+            color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; 
+        }
+        
+        .phone-container { 
+            width: 100%; max-width: 450px; height: 100vh; max-height: 850px; background-color: #05050a;
+            background-image: 
+                linear-gradient(90deg, transparent 49%, rgba(0, 255, 255, 0.03) 50%, transparent 51%),
+                linear-gradient(transparent 49%, rgba(188, 19, 254, 0.03) 50%, transparent 51%),
+                repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0, 255, 255, 0.02) 15px, rgba(0, 255, 255, 0.02) 16px),
+                repeating-linear-gradient(-45deg, transparent, transparent 25px, rgba(188, 19, 254, 0.02) 25px, rgba(188, 19, 254, 0.02) 26px);
+            background-size: 80px 80px, 80px 80px, 100% 100%, 100% 100%;
+            border: 2px solid #bc13fe; box-shadow: 0 0 30px rgba(188, 19, 254, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.1); 
+            border-radius: 24px; display: flex; flex-direction: column; position: relative; overflow: hidden; 
+        }
 
+        /* --- LOADING SCREEN --- */
+        .cyber-loader-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #040407; z-index: 999; display: flex; justify-content: center; align-items: center; transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.6s ease; }
+        .cyber-loader-screen.hide { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        .cosmic-loader-wrapper { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; }
+        .load-logo { width: 115px; height: 115px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(188, 19, 254, 0.6)); animation: cosmicPulse 2s infinite ease-in-out; z-index: 10; }
+        @keyframes cosmicPulse { 0%, 100% { transform: scale(0.96); } 50% { transform: scale(1.04); filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.7)); } }
+        .cosmic-glow-ring { position: absolute; width: 160px; height: 160px; border-radius: 50%; border: 2px solid transparent; border-top-color: #00ffff; border-bottom-color: #bc13fe; filter: drop-shadow(0 0 8px #00ffff); animation: ringRotate 2.5s infinite linear; }
+        @keyframes ringRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .scroll-content { flex: 1; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+        .scroll-content::-webkit-scrollbar { width: 4px; }
+        .scroll-content::-webkit-scrollbar-thumb { background: #00ffff; border-radius: 10px; }
+
+        .store-banner { width: 100%; height: 130px; background: linear-gradient(45deg, #0a2463 0%, #050508 100%); border-bottom: 1px solid rgba(0, 255, 255, 0.3); overflow: hidden; display: flex; justify-content: center; align-items: center; position: relative; }
+        .banner-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+        .banner-placeholder-text { font-size: 13px; font-weight: bold; color: #00ffff; letter-spacing: 2px; text-shadow: 0 0 8px #00ffff; z-index: 1; text-transform: uppercase; }
+
+        /* ICON RAHASIA PANEL ADMIN */
+        .secret-admin-trigger { position: absolute; top: 15px; right: 15px; color: rgba(0, 255, 255, 0.4); font-size: 16px; cursor: pointer; z-index: 20; transition: color 0.3s; }
+        .secret-admin-trigger:hover { color: #00ffff; filter: drop-shadow(0 0 5px #00ffff); }
+
+        .main-content-wrapper { padding: 0 20px; padding-bottom: 100px; position: relative; }
+
+        /* --- POP-UP MODAL ABOUT US --- */
+        .about-modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 8, 0.95); z-index: 100; display: flex; justify-content: center; align-items: center; padding: 25px; opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out; }
+        .about-modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .about-modal-card { width: 100%; background: #080b16; border: 1px solid #bc13fe; box-shadow: 0 0 20px rgba(188, 19, 254, 0.3); border-radius: 20px; padding: 22px; position: relative; transform: translateY(20px); transition: transform 0.4s ease-in-out; }
+        .about-modal-overlay.show .about-modal-card { transform: translateY(0); }
+        .modal-header { color: #00ffff; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; text-shadow: 0 0 8px rgba(0, 255, 255, 0.4); }
+        .modal-body-text { color: #e2e8f0; font-size: 13px; line-height: 1.6; margin-bottom: 18px; }
+        .modal-close-btn { background: #bc13fe; color: #ffffff; border: none; padding: 10px 20px; font-size: 12px; font-weight: 700; border-radius: 12px; cursor: pointer; width: 100%; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(188, 19, 254, 0.4); }
+
+        .page-section { display: none; }
+        .page-section.active { display: block; animation: pageFadeEffect 0.35s ease-in-out; }
+        @keyframes pageFadeEffect { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .profile-container { text-align: center; margin-bottom: 15px; margin-top: 20px; }
+        .profile-logo { width: 170px; height: 170px; object-fit: contain; margin-bottom: 2px; filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.5)); }
+        .profile-title { font-size: 26px; font-weight: 900; color: #ffffff; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(0, 255, 255, 0.6); margin-bottom: 10px; }
+        .bio-box { background: rgba(10, 36, 99, 0.5); border: 1px solid #bc13fe; border-radius: 14px; padding: 14px; font-size: 13px; line-height: 1.5; color: #e2e8f0; margin-bottom: 15px; }
+
+        .sosmed-instruction-text { text-align: center; font-size: 10px; font-weight: 700; color: #00ffff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; animation: textPulse 2s infinite ease-in-out; text-shadow: 0 0 8px rgba(0, 255, 255, 0.4); }
+        @keyframes textPulse { 0%, 100% { opacity: 0.4; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
+
+        .sosmed-row { display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; position: relative; z-index: 10; }
+        .sosmed-icon { width: 46px; height: 46px; border-radius: 50px; display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 22px; background: #050508; text-decoration: none; border: 2px solid transparent; animation: fluidNeonShift 4s linear infinite; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); transition: all 0.3s ease; }
+        .sosmed-icon.whatsapp i { color: #25D366; }
+        .sosmed-icon.tiktok i { color: #ffffff; }
+        .sosmed-icon.instagram i { color: #f9376c; }
+        .sosmed-icon:hover { transform: translateY(-5px) scale(1.1); border-color: #00ffff; box-shadow: 0 0 20px #00ffff, 0 0 30px #bc13fe; }
+
+        .wa-links-wrapper { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; position: relative; z-index: 2; margin-top: 10px; }
+        .mascot-absolute-container { position: absolute; left: -18px; bottom: -12px; width: 195px; height: 195px; z-index: 3; pointer-events: none; }
+        .mascot-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5)); }
+
+        .group-card { background: rgba(10, 36, 99, 0.4); border-left: 4px solid #bc13fe; border-top: 1px solid rgba(188, 19, 254, 0.3); border-bottom: 1px solid rgba(188, 19, 254, 0.3); border-right: 1px solid rgba(188, 19, 254, 0.3); border-radius: 0 14px 14px 0; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; transition: all 0.2s ease; margin-left: 140px; }
+        .group-card:hover { background: rgba(10, 36, 99, 0.7); border-left-color: #00ffff; transform: scale(1.02); box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
+        .group-card .group-info h3 { color: #ffffff; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .group-card .group-info p { color: #a0aec0; font-size: 10px; line-height: 1.3; }
+        .arrow-btn { color: #bc13fe; font-weight: bold; font-size: 13px; }
+        .group-card:hover .arrow-btn { color: #00ffff; }
+
+        .testi-section-wrapper { 
+            padding: 20px; position: relative; margin-top: 15px; background-color: rgba(13, 13, 20, 0.85); 
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0, 255, 255, 0.015) 20px, rgba(0, 255, 255, 0.015) 21px), repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(188, 19, 254, 0.015) 20px, rgba(188, 19, 254, 0.015) 21px);
+            backdrop-filter: blur(5px); border: 2px solid rgba(0, 255, 255, 0.2); border-radius: 20px; overflow: hidden; z-index: 2; 
+        }
+        .testi-section-wrapper::before, .testi-section-wrapper::after, .bottom-geometries::before, .bottom-geometries::after { content: ''; position: absolute; width: 25px; height: 25px; z-index: 5; }
+        .testi-section-wrapper::before { top: 0; left: 0; border-left: 4px solid #00ffff; border-top: 4px solid #00ffff; }
+        .testi-section-wrapper::after { top: 0; right: 0; border-right: 4px solid #bc13fe; border-top: 4px solid #bc13fe; }
+        .bottom-geometries::before { bottom: 0; left: 0; border-left: 4px solid #bc13fe; border-bottom: 4px solid #bc13fe; }
+        .bottom-geometries::after { bottom: 0; right: 0; border-right: 4px solid #00ffff; border-bottom: 4px solid #00ffff; }
+
+        .testi-tabs { display: flex; background: rgba(10, 36, 99, 0.4); padding: 4px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(188, 19, 254, 0.2); gap: 4px; }
+        .tab-btn { flex: 1; background: transparent; border: none; color: #718096; padding: 10px; font-size: 12px; font-weight: 700; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; }
+        .tab-btn.active { background: #bc13fe; color: #ffffff; box-shadow: 0 0 10px rgba(188, 19, 254, 0.5); }
+        
+        .category-content { display: none; }
+        .category-content.active { display: block; animation: fadeInGrid 0.3s ease-in-out; }
+
+        .testi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .testi-card { background: #080b16; border: 2px solid rgba(188, 19, 254, 0.2); border-radius: 12px; overflow: hidden; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.4); cursor: pointer; transition: all 0.25s ease; position: relative; }
+        .testi-card:hover { transform: scale(1.04); border-color: #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6); z-index: 5; }
+        .testi-card img { width: 100%; height: 100%; object-fit: cover; }
+        .no-testi-text { text-align: center; color: #718096; font-size: 13px; grid-column: span 2; padding: 30px 0; }
+
+        /* --- ULASAN STYLING --- */
+        .review-stats-summary { background: rgba(0, 255, 255, 0.05); border: 1px dashed rgba(0, 255, 255, 0.3); border-radius: 16px; padding: 15px; text-align: center; margin-top: 15px; margin-bottom: 20px; }
+        .big-rating-number { font-size: 32px; font-weight: 900; color: #00ffff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.4); }
+        .big-rating-stars { color: #bc13fe; font-size: 14px; margin: 4px 0; }
+        .total-review-count { font-size: 11px; color: #a0aec0; font-weight: bold; letter-spacing: 0.5px; }
+
+        .review-scroll-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
+        .review-scroll-container::-webkit-scrollbar { width: 3px; }
+        .review-scroll-container::-webkit-scrollbar-thumb { background: #00ffff; border-radius: 10px; }
+
+        .standalone-review-card { background: rgba(10, 36, 99, 0.3); border: 1px solid rgba(188, 19, 254, 0.15); border-radius: 14px; padding: 14px; margin-bottom: 4px; }
+        .standalone-review-card.is-pending { border-color: #e53e3e !important; box-shadow: 0 0 10px rgba(229, 62, 62, 0.2); }
+        
+        .review-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .review-user-badge { font-size: 13px; font-weight: 800; color: #ffffff; }
+        .review-item-date { font-size: 10px; color: #718096; }
+        
+        /* FIX TOTAL BINTANG */
+        .review-item-stars { color: #00ffff !important; font-size: 11px !important; margin-bottom: 6px; text-shadow: 0 0 5px #00ffff; display: flex; gap: 3px; }
+        .review-item-stars i { color: #00ffff !important; font-size: 11px !important; }
+        
+        .review-item-msg { font-size: 12px; color: #e2e8f0; line-height: 1.45; word-break: break-word; }
+
+        .admin-action-row { display: flex; gap: 8px; margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px; }
+        .action-adm-btn { flex: 1; text-align: center; font-size: 10px; font-weight: bold; padding: 6px; border-radius: 6px; text-decoration: none; text-transform: uppercase; }
+        .action-adm-btn.approve { background: #25D366; color: #ffffff; }
+        .action-adm-btn.delete { background: #e53e3e; color: #ffffff; }
+        
+        .admin-indicator-badge { background: #00ffff; color: #05050a; font-size: 11px; font-weight: bold; padding: 6px 14px; border-radius: 20px; display: inline-block; margin-bottom: 15px; text-transform: uppercase; box-shadow: 0 0 10px #00ffff; letter-spacing: 0.5px; }
+        .exit-admin-btn { display: block; width: 100%; text-align: center; background: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; font-size: 11px; font-weight: bold; text-decoration: none; text-transform: uppercase; margin-top: 20px; }
+
+        .form-review-box { background: rgba(13, 13, 20, 0.9); border: 1px solid #bc13fe; border-radius: 18px; padding: 18px; box-shadow: 0 0 15px rgba(188,19,254,0.15); }
+        .form-box-title { font-size: 14px; font-weight: 800; color: #00ffff; text-transform: uppercase; margin-bottom: 14px; text-shadow: 0 0 6px #00ffff; letter-spacing: 0.5px; }
+        .field-group { margin-bottom: 12px; }
+        .field-label { display: block; font-size: 10px; color: #a0aec0; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
+        .input-field { width: 100%; background: #080b16; border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 8px; padding: 10px 12px; color: #ffffff; font-size: 12px; }
+        .input-field:focus { outline: none; border-color: #bc13fe; }
+        .submit-review-btn { width: 100%; background: linear-gradient(90deg, #bc13fe, #0a2463); color: #ffffff; border: 1px solid #bc13fe; border-radius: 10px; padding: 12px; font-size: 11px; font-weight: 700; letter-spacing: 1px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease; }
+        .submit-review-btn:hover { box-shadow: 0 0 10px #00ffff; color: #050508; background: linear-gradient(90deg, #00ffff, #bc13fe); border-color: #00ffff; }
+
+        .footer-privacy { text-align: center; margin-top: 40px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: center; align-items: center; gap: 15px; position: relative; z-index: 10; }
+        .privacy-link, .about-footer-link { color: #718096; font-size: 12px; text-decoration: none; background: transparent; border: none; cursor: pointer; }
+        .privacy-link:hover, .about-footer-link:hover { color: #00ffff; text-shadow: 0 0 8px #00ffff; }
+        .footer-divider { color: rgba(255, 255, 255, 0.15); font-size: 11px; }
+
+        .bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 70px; background: #0d0d13; border-top: 1px solid rgba(188, 19, 254, 0.3); display: flex; justify-content: space-evenly; align-items: center; border-radius: 0 0 22px 22px; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #718096; font-size: 10px; font-weight: 700; cursor: pointer; transition: color 0.2s; padding: 10px 10px; flex: 1; text-align: center; }
+        .nav-item.active, .nav-item:hover { color: #00ffff; text-shadow: 0 0 8px rgba(0, 255, 255, 0.5); }
+        .nav-dot { width: 5px; height: 5px; background-color: transparent; border-radius: 50px; margin-top: 4px; }
+        .nav-item.active .nav-dot { background-color: #00ffff; box-shadow: 0 0 8px #00ffff; }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container">
+        
+        <div id="loading-screen" class="cyber-loader-screen">
+            <div class="cosmic-loader-wrapper">
+                <div class="cosmic-glow-ring"></div>
+                <img src="{{ url_for('static', filename='dfstoreacc.png') }}" class="load-logo" alt="DYLF Logo">
+            </div>
+        </div>
+
+        <div id="about-modal" class="about-modal-overlay">
+            <div class="about-modal-card">
+                <div class="modal-header">About Us</div>
+                <div class="modal-body-text">
+                    <strong>DYLF STOREacc</strong> adalah platform penyedia layanan Jual-Beli Akun Game/Sosmed serta Jasa Rekber berbasis digital terpercaya yang didirikan oleh <strong>Dileppp</strong> sejak akhir tahun 2020.
+                </div>
+                <button class="modal-close-btn" onclick="toggleAboutModal(false)">TUTUP</button>
+            </div>
+        </div>
+
+        <div class="scroll-content" id="main-scroll-area">
+            
+            <div class="store-banner">
+                <div class="secret-admin-trigger" onclick="triggerAdminLogin()">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+                <img src="{{ url_for('static', filename='banner.png') }}" class="banner-img" alt="" onerror="this.parentElement.querySelector('.banner-placeholder-text').style.display='block'; this.style.display='none';">
+                <div class="banner-placeholder-text" style="display:none;">DYLF STORE OFFICIAL BANNER</div>
+            </div>
+            
+            <div class="main-content-wrapper">
+
+                <div id="page-home" class="page-section active">
+                    <div class="profile-container">
+                        <img src="{{ url_for('static', filename='dfstoreacc.png') }}" class="profile-logo" alt="DYLF Logo">
+                        <div class="profile-title">DYLF STOREacc</div>
+                        <div class="bio-box">
+                            Welcome to web DYLF STOREacc Pusat Layanan Jual & Beli Akun Digital Terpercaya khususnya akun game yg sedang kamu cari. Silahkan Join Komunitas dibawah ini untuk mendapatkan informasi lengkapnya.🌱
+                        </div>
+                    </div>
+
+                    <div class="sosmed-instruction-text">🎯 Click Icon to Contact Us 🎯</div>
+                    <div class="sosmed-row">
+                        <a href="https://wa.me/6285266953530" target="_blank" class="sosmed-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://www.tiktok.com/@dylfrvr" target="_blank" class="sosmed-icon tiktok"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://instagram.com/dylfrvr" target="_blank" class="sosmed-icon instagram"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+
+                    <div class="wa-links-wrapper">
+                        <div class="mascot-absolute-container">
+                            <img src="{{ url_for('static', filename='images/difibot_v2.png') }}" class="mascot-img" alt="Difibot V2" onerror="this.src='https://placehold.co/195x195/080b16/bc13fe?text=Difibot+V2'">
+                        </div>
+                        <a href="https://chat.whatsapp.com/IyHj3XJikuX90k6HSiMpDP" target="_blank" class="group-card">
+                            <div class="group-info"><h3>GB 1: DYLF STOREacc</h3><p>Grup komunitas utama pusat jual & beli akun aman</p></div><div class="arrow-btn">&gt;</div>
+                        </a>
+                        <a href="https://whatsapp.com/channel/0029VbCmpXQ8vd1RqxIn6h0z" target="_blank" class="group-card">
+                            <div class="group-info"><h3>CH: DYLF STOREacc</h3><p>Channel update info stok akun & track history testi</p></div><div class="arrow-btn">&gt;</div>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="page-testi" class="page-section">
+                    <div class="testi-section-wrapper">
+                        <div class="bottom-geometries"></div>
+                        <div class="section-header"><h2>Track History</h2><p>Bukti transaksi sukses bersama DYLF STOREacc</p></div>
+                        <div class="testi-tabs">
+                            <button class="tab-btn active" id="tab-stok" onclick="switchTestiTab('stok')">STOK AKUN</button>
+                            <button class="tab-btn" id="tab-rekber" onclick="switchTestiTab('rekber')">JASA REKBER</button>
+                        </div>
+                        
+                        <div id="cat-stok" class="category-content active">
+                            <div class="testi-grid">
+                                {% if foto_stok %}
+                                    {% for img in foto_stok %}
+                                    <div class="testi-card"><img src="{{ url_for('static', filename='testi/stok/' + img) }}" loading="lazy" alt="Testi Stok"></div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="no-testi-text">Belum ada foto transaksi di folder static/testi/stok/</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div id="cat-rekber" class="category-content">
+                            <div class="testi-grid">
+                                {% if foto_rekber %}
+                                    {% for img in foto_rekber %}
+                                    <div class="testi-card"><img src="{{ url_for('static', filename='testi/rekber/' + img) }}" loading="lazy" alt="Testi Rekber"></div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="no-testi-text">Belum ada foto transaksi di folder static/testi/rekber/</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="page-ulasan" class="page-section">
+                    <div class="review-stats-summary">
+                        <div class="big-rating-number">5.0 / 5.0</div>
+                        <div class="big-rating-stars"><i class="fa-solid fa-star" style="color:#00ffff;"></i><i class="fa-solid fa-star" style="color:#00ffff;"></i><i class="fa-solid fa-star" style="color:#00ffff;"></i><i class="fa-solid fa-star" style="color:#00ffff;"></i><i class="fa-solid fa-star" style="color:#00ffff;"></i></div>
+                        <div class="total-review-count">KEPUASAN PELANGGAN DYLF STOREacc</div>
+                    </div>
+
+                    <div class="review-scroll-container">
+                        {% set ada_ulasan_approved = false %}
+                        {% if daftar_ulasan %}
+                            {% for item in daftar_ulasan %}
+                                {% if item.status == 'approved' %}
+                                    <div class="standalone-review-card">
+                                        <div class="review-card-top">
+                                            <div class="review-user-badge">👤 {{ item.nama }}</div>
+                                            <div class="review-item-date">{{ item.tanggal }}</div>
+                                        </div>
+                                        <div class="review-item-stars">
+                                            {% for i in range(item.rating) %}
+                                                <i class="fa-solid fa-star"></i>
+                                            {% endfor %}
+                                        </div>
+                                        <p class="review-item-msg">{{ item.text }}</p>
+                                    </div>
+                                    {% set ada_ulasan_approved = true %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        
+                        {% if not ada_ulasan_approved %}
+                            <p class="no-testi-text">Belum ada ulasan masuk dari customer.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-review-box">
+                        <div class="form-box-title">✍️ Bagikan Pengalaman Transaksi</div>
+                        <form action="/tambah_ulasan" method="POST">
+                            <input type="hidden" name="admin_token" value="{{ admin_token }}">
+                            
+                            <div class="field-group">
+                                <label class="field-label">Nama / Nickname Kamu</label>
+                                <input type="text" name="nama" class="input-field" placeholder="Masukan nama lengkap..." required maxlength="30">
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Rating Kepuasan</label>
+                                <select name="rating" class="input-field" style="color:#00ffff; font-weight:bold; background:#080b16;">
+                                    <option value="5">⭐⭐★★★ 5 - Sangat Puas / Rekomended</option>
+                                    <option value="4">⭐⭐⭐⭐ 4 - Puas / Cepat</option>
+                                    <option value="3">⭐⭐⭐ 3 - Cukup Baik</option>
+                                </select>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Isi Ulasan Pengalaman</label>
+                                <textarea name="text" class="input-field" rows="3" placeholder="Tulis testimoni kejujuran kamu di sini..." required maxlength="200"></textarea>
+                            </div>
+                            <button type="submit" class="submit-review-btn">KIRIM TESTIMONI KONSUMEN</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="page-admin" class="page-section">
+                    <div class="admin-indicator-badge">🛡️ KONTROL PANEL RAHASIA TOKO</div>
+                    
+                    <div class="review-scroll-container" style="max-height: 480px;">
+                        {% if daftar_ulasan %}
+                            {% for item in daftar_ulasan %}
+                            <div class="standalone-review-card {% if item.status == 'pending' %}is-pending{% endif %}">
+                                <div class="review-card-top">
+                                    <div class="review-user-badge">👤 {{ item.nama }} {% if item.status == 'pending' %}<span style="color:#e53e3e; font-size:10px;">[PENDING]</span>{% endif %}</div>
+                                    <div class="review-item-date">{{ item.tanggal }}</div>
+                                </div>
+                                <div class="review-item-stars">
+                                    {% for i in range(item.rating) %}
+                                        <i class="fa-solid fa-star"></i>
+                                    {% endfor %}
+                                </div>
+                                <p class="review-item-msg">{{ item.text }}</p>
+                                
+                                <div class="admin-action-row">
+                                    {% if item.status == 'pending' %}
+                                    <a href="/action_ulasan/approve/{{ item.id }}?admin_token={{ admin_token }}" class="action-adm-btn approve">Terima</a>
+                                    {% endif %}
+                                    <a href="/action_ulasan/delete/{{ item.id }}?admin_token={{ admin_token }}" class="action-adm-btn delete">Hapus</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="no-testi-text">Tidak ada antrean ulasan masuk.</p>
+                        {% endif %}
+                    </div>
+
+                    <a href="/" class="exit-admin-btn">Keluar Panel Admin</a>
+                </div>
+
+                <div class="footer-privacy">
+                    <button class="about-footer-link" onclick="toggleAboutModal(true)">About Store</button>
+                    <span class="footer-divider">|</span>
+                    <a href="#" class="privacy-link">Privacy Policy</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item active" id="btn-home" onclick="navigateToPage('home')"><span>HOME</span><div class="nav-dot"></div></div>
+            <div class="nav-item" id="btn-testi" onclick="navigateToPage('testi')"><span>TESTIMONI</span><div class="nav-dot"></div></div>
+            <div class="nav-item" id="btn-ulasan" onclick="navigateToPage('ulasan')"><span>ULASAN</span><div class="nav-dot"></div></div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(() => { document.getElementById('loading-screen').classList.add('hide'); }, 2200);
+            
+            const initNav = "{{ nav_target }}";
+            if(initNav === 'admin') {
+                navigateToPage('admin');
+            } else if(initNav === 'ulasan' || initNav === 'testi') { 
+                navigateToPage(initNav); 
+            }
+        });
+
+        function toggleAboutModal(show) {
+            const modal = document.getElementById('about-modal');
+            if (show) modal.classList.add('show');
+            else modal.classList.remove('show');
+        }
+
+        function navigateToPage(pageName) {
+            document.querySelectorAll('.page-section').forEach(section => { section.classList.remove('active'); });
+            document.querySelectorAll('.nav-item').forEach(item => { item.classList.remove('active'); });
+            
+            const targetPage = document.getElementById('page-' + pageName);
+            if(targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            const targetBtn = document.getElementById('btn-' + pageName);
+            if(targetBtn) {
+                targetBtn.classList.add('active');
+            }
+            document.getElementById('main-scroll-area').scrollTop = 0;
+        }
+
+        function switchTestiTab(categoryName) {
+            document.getElementById('cat-stok').classList.remove('active');
+            document.getElementById('cat-rekber').classList.remove('active');
+            document.getElementById('tab-stok').classList.remove('active');
+            document.getElementById('tab-rekber').classList.remove('active');
+            if(categoryName === 'stok') {
+                document.getElementById('cat-stok').classList.add('active');
+                document.getElementById('tab-stok').classList.add('active');
+            } else if(categoryName === 'rekber') {
+                document.getElementById('cat-rekber').classList.add('active');
+                document.getElementById('tab-rekber').classList.add('active');
+            }
+        }
+
+        function triggerAdminLogin() {
+            const pinInput = prompt("Masukkan PIN Rahasia Kontrol Toko:");
+            if (pinInput) {
+                window.location.href = "/?nav=admin&admin_token=" + encodeURIComponent(pinInput);
+            }
+        }
+    </script>
+</body>
+</html>
